@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>猜猜看我是誰｜2026 安創金馬獎尾牙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0806; --gold:#d4af37; --gold-lt:#f5e3a1; --gold-dk:#8f6f1c;
+  --red:#b3122e; --red-dk:#6e0a1b; --ink:#f6efe0; --mute:#a7987a;
+  --card:rgba(255,236,190,.045); --line:rgba(212,175,55,.26); --ok:#3fbf7f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -8%,rgba(212,175,55,.20),transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 110%,rgba(179,18,46,.22),transparent 70%),
+    var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  min-height:100vh;-webkit-tap-highlight-color:transparent;
+}
+.hidden{display:none!important}
+.gold{background:linear-gradient(180deg,#fff7d6 0%,#f1d47e 38%,#c4952a 62%,#f4de92 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.serif{font-family:"Noto Serif TC","Songti TC",serif}
+.eyebrow{letter-spacing:.32em;font-size:12px;color:var(--gold);text-transform:uppercase;font-weight:500}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.55}
+.btn{
+  appearance:none;border:1px solid var(--gold);background:transparent;color:var(--gold-lt);
+  font:inherit;font-weight:700;padding:12px 20px;border-radius:999px;cursor:pointer;
+  transition:transform .08s,background .2s,opacity .2s;white-space:nowrap
+}
+.btn:hover{background:rgba(212,175,55,.12)}
+.btn:active{transform:scale(.97)}
+.btn.solid{background:linear-gradient(180deg,#f2d67f,#c4952a);color:#1a1205;border-color:transparent}
+.btn.solid:hover{filter:brightness(1.07)}
+.btn.ok{border-color:var(--ok);color:#bff0d6}
+.btn.bad{border-color:#e0607a;color:#ffc9d3}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn kbd{font:inherit;font-size:11px;opacity:.6;margin-left:6px;border:1px solid currentColor;border-radius:4px;padding:0 4px}
+.demo-flag{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:50;font-size:12px;
+  background:#3a2a05;border:1px solid var(--gold);color:var(--gold-lt);padding:4px 12px;border-radius:999px}
+
+/* ---------- 參加者 ---------- */
+.wrap{max-width:460px;margin:0 auto;padding:28px 20px 40px;min-height:100vh;display:flex;flex-direction:column}
+.brand{text-align:center}
+.brand h1{font-size:34px;line-height:1.2;margin:10px 0 6px;font-weight:900}
+.brand p{color:var(--mute);font-size:14px}
+.join-card{margin-top:36px;padding:26px 22px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.join-card label{display:block;font-size:14px;color:var(--mute);margin-bottom:10px}
+.join-card input{width:100%;font:inherit;font-size:20px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(0,0,0,.35);color:var(--ink);outline:none}
+.join-card input:focus{border-color:var(--gold)}
+.join-card .btn{width:100%;margin-top:16px;font-size:18px;padding:15px}
+.err{color:#ff9fb0;font-size:13px;margin-top:10px;min-height:1em}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--mute)}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.me-name{font-weight:700;color:var(--gold-lt)}
+.round-lbl{text-align:center;margin-top:22px}
+.round-lbl .n{font-size:26px;font-weight:900;margin-top:4px}
+.status{text-align:center;color:var(--mute);margin-top:6px;min-height:1.4em;font-size:15px}
+
+.buzz-zone{flex:1;display:flex;align-items:center;justify-content:center;padding:22px 0}
+.buzz{
+  width:min(72vw,300px);aspect-ratio:1;border-radius:50%;border:none;cursor:pointer;position:relative;
+  font:inherit;font-size:clamp(36px,11vw,54px);font-weight:900;letter-spacing:.08em;color:#fff;
+  background:radial-gradient(circle at 35% 28%,#ff5d78 0%,var(--red) 45%,var(--red-dk) 100%);
+  box-shadow:0 0 0 6px #2a1a08,0 0 0 9px var(--gold),0 18px 50px rgba(179,18,46,.55),inset 0 -10px 24px rgba(0,0,0,.35);
+  transition:transform .06s,filter .2s,box-shadow .2s;touch-action:manipulation;user-select:none;-webkit-user-select:none
+}
+.buzz.live{animation:pulse 1.1s ease-in-out infinite}
+.buzz:active:not(:disabled){transform:scale(.94)}
+.buzz:disabled{cursor:default;filter:grayscale(.85) brightness(.45);animation:none;
+  box-shadow:0 0 0 6px #1a1208,0 0 0 9px rgba(212,175,55,.35),inset 0 -10px 24px rgba(0,0,0,.35)}
+.buzz.pressed{filter:none;background:radial-gradient(circle at 35% 28%,#fff4c4 0%,#e3b94a 45%,#8f6f1c 100%);color:#2a1a05;
+  box-shadow:0 0 0 6px #2a1a08,0 0 0 9px var(--gold-lt),0 0 60px rgba(245,227,161,.6)}
+.buzz small{display:block;font-size:15px;font-weight:500;letter-spacing:.05em;margin-top:6px;opacity:.85}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 6px #2a1a08,0 0 0 9px var(--gold),0 18px 50px rgba(179,18,46,.55),0 0 0 0 rgba(255,93,120,.45)}
+  50%{box-shadow:0 0 0 6px #2a1a08,0 0 0 9px var(--gold),0 18px 50px rgba(179,18,46,.55),0 0 0 22px rgba(255,93,120,0)}}
+
+.winner-card{border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;background:var(--card);min-height:86px}
+.winner-card .lbl{font-size:13px;color:var(--mute)}
+.winner-card .who{font-size:28px;font-weight:900;margin-top:4px}
+.winner-card.correct{border-color:var(--ok)}
+.foot{display:flex;justify-content:space-between;margin-top:14px;font-size:13px;color:var(--mute)}
+
+/* ---------- 主持人大螢幕 ---------- */
+.host{min-height:100vh;display:grid;grid-template-columns:1fr 340px;grid-template-rows:auto 1fr auto;gap:0}
+.host header{grid-column:1/3;display:flex;justify-content:space-between;align-items:flex-end;padding:26px 40px 18px;border-bottom:1px solid var(--line)}
+.host header h1{font-size:44px;font-weight:900;line-height:1.1;margin-top:6px}
+.host header .online-big{text-align:right}
+.host header .online-big .num{font-size:56px;font-weight:900;line-height:1}
+.host header .online-big .cap{color:var(--mute);font-size:14px}
+.stage{padding:34px 40px;display:flex;flex-direction:column;min-width:0}
+.stage .round{display:flex;align-items:baseline;gap:18px}
+.stage .round .n{font-size:30px;font-weight:900}
+.stage .round .st{font-size:16px;color:var(--mute)}
+.stage .round .st.live{color:#ff8aa0;font-weight:700}
+.spot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
+.spot .lbl{font-size:20px;color:var(--mute);letter-spacing:.2em}
+.spot .who{font-size:clamp(64px,9vw,140px);font-weight:900;line-height:1.15;margin:12px 0;word-break:break-all}
+.spot .meta{font-size:18px;color:var(--mute)}
+.spot .stamp{margin-top:14px;font-size:22px;font-weight:700;color:#bff0d6;border:1px solid var(--ok);padding:6px 18px;border-radius:999px}
+.spot.pop .who{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.ranking{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.ranking li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--card)}
+.ranking li.cur{border-color:var(--gold);background:rgba(212,175,55,.12)}
+.ranking li.out{opacity:.4;text-decoration:line-through}
+.ranking .rk{font-weight:900;color:var(--gold);width:28px}
+.ranking .nm{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ranking .df{font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+
+aside{border-left:1px solid var(--line);padding:26px 24px;display:flex;flex-direction:column;gap:22px;overflow:auto}
+aside h3{font-size:13px;letter-spacing:.25em;color:var(--gold);font-weight:500;margin-bottom:10px}
+.qr{background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;margin:0 auto}
+.qr img{width:100%;height:100%;display:block}
+.join-url{font-size:12px;color:var(--mute);text-align:center;margin-top:8px;word-break:break-all}
+.scores{list-style:none;counter-reset:s}
+.scores li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(212,175,55,.18);font-size:16px}
+.scores li span:last-child{font-weight:900;color:var(--gold-lt);font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chips span.buzzed{border-color:var(--gold);color:var(--gold-lt)}
+.empty{color:var(--mute);font-size:14px}
+
+.controls{grid-column:1/3;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 40px;border-top:1px solid var(--line);background:rgba(0,0,0,.35)}
+.controls .sp{flex:1}
+.login-box{max-width:420px;margin:18vh auto 0;text-align:center;padding:0 20px}
+.login-box h1{font-size:34px;font-weight:900;margin:10px 0 14px}
+.login-box p{color:var(--mute);margin-bottom:22px;line-height:1.7}
+
+@media (max-width:900px){
+  .host{grid-template-columns:1fr}
+  .host header,.controls{grid-column:1}
+  aside{border-left:none;border-top:1px solid var(--line)}
+  .host header{padding:20px}
+  .host header h1{font-size:28px}
+  .stage,.controls{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<div id="demoFlag" class="demo-flag hidden">示範模式：資料只在這台電腦的分頁之間同步</div>
+
+<!-- ===== 參加者：輸入名字 ===== -->
+<section id="vJoin" class="wrap hidden">
+  <div class="brand">
+    <div class="eyebrow">2026 Auriga Golden Horse Gala</div>
+    <h1 class="serif gold">猜猜看我是誰</h1>
+    <p>2026 安創金馬獎尾牙</p>
+  </div>
+  <div class="rule" style="margin-top:26px"></div>
+  <form id="joinForm" class="join-card" autocomplete="off">
+    <label for="nameInput">請輸入你的名字（會顯示在大螢幕上）</label>
+    <input id="nameInput" maxlength="12" placeholder="例如：王小明" required>
+    <button class="btn solid" type="submit">進場</button>
+    <div id="joinErr" class="err"></div>
+  </form>
+</section>
+
+<!-- ===== 參加者：搶答 ===== -->
+<section id="vPlayer" class="wrap hidden">
+  <div class="topbar">
+    <span class="pill"><span class="dot"></span>在線 <b id="pOnline">0</b> 人</span>
+    <span>我是 <span id="pMe" class="me-name"></span></span>
+  </div>
+  <div class="round-lbl">
+    <div class="eyebrow">猜猜看我是誰</div>
+    <div id="pRound" class="n serif gold">第 1 題</div>
+  </div>
+  <div id="pStatus" class="status">等主持人出題…</div>
+  <div class="buzz-zone">
+    <button id="buzzBtn" class="buzz" disabled>搶答<small id="buzzSub">等待開始</small></button>
+  </div>
+  <div id="pWinner" class="winner-card">
+    <div class="lbl">本題搶答成功</div>
+    <div class="who gold serif">—</div>
+  </div>
+  <div class="foot"><span>我的得分：<b id="pScore">0</b></span><a href="#" id="renameLink" style="color:var(--mute)">改名字</a></div>
+</section>
+
+<!-- ===== 主持人：登入 ===== -->
+<section id="vHostLogin" class="login-box hidden">
+  <div class="eyebrow">Host Console</div>
+  <h1 class="serif gold">主持人控制台</h1>
+  <p id="loginMsg">請用主持人的 Google 帳號登入，才能控制題目。</p>
+  <button id="loginBtn" class="btn solid">用 Google 帳號登入</button>
+  <div id="loginErr" class="err"></div>
+</section>
+
+<!-- ===== 主持人：大螢幕 ===== -->
+<section id="vHost" class="host hidden">
+  <header>
+    <div>
+      <div class="eyebrow">2026 安創金馬獎尾牙</div>
+      <h1 class="serif gold">猜猜看我是誰</h1>
+    </div>
+    <div class="online-big">
+      <div id="hOnline" class="num gold">0</div>
+      <div class="cap">人在線上</div>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="round">
+      <div id="hRound" class="n serif gold">第 1 題</div>
+      <div id="hStatus" class="st">準備中</div>
+    </div>
+    <div id="spot" class="spot">
+      <div class="lbl" id="spotLbl">等待開始搶答</div>
+      <div class="who serif gold" id="spotWho">—</div>
+      <div class="meta" id="spotMeta"></div>
+      <div class="stamp hidden" id="spotStamp">答對 +1 分</div>
+    </div>
+    <ul id="ranking" class="ranking"></ul>
+  </div>
+
+  <aside>
+    <div>
+      <h3>掃描加入</h3>
+      <div class="qr"><img id="qrImg" alt="加入搶答的 QR Code"></div>
+      <div id="joinUrl" class="join-url"></div>
+    </div>
+    <div>
+      <h3>排行榜</h3>
+      <ul id="scores" class="scores"></ul>
+    </div>
+    <div>
+      <h3>在線名單</h3>
+      <div id="chips" class="chips"></div>
+    </div>
+  </aside>
+
+  <div class="controls">
+    <button id="cOpen" class="btn solid">開始搶答<kbd>空白鍵</kbd></button>
+    <button id="cRight" class="btn ok">答對 +1<kbd>Y</kbd></button>
+    <button id="cWrong" class="btn bad">答錯，換下一位<kbd>N</kbd></button>
+    <button id="cNext" class="btn">下一題<kbd>→</kbd></button>
+    <span class="sp"></span>
+    <button id="cReset" class="btn" style="border-color:#555;color:#aaa">全部重來</button>
+  </div>
+</section>
+
+<script type="module">
+/* =========================================================
+   設定區：只需要改這裡
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyCI63drcVo8CcftlStH04J5J_rSuHRvAKI",
+  authDomain: "guess-who-i-am-auriga.firebaseapp.com",
+  databaseURL: "https://guess-who-i-am-auriga-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "guess-who-i-am-auriga",
+  appId: "1:510559070308:web:3abd37854594ddc71bd771"
+};
+// 可以操作主持人控制台的 Google 帳號（可放多個）
+const HOST_EMAILS = ["tina.yao@aurigasec.com"];
+/* ========================================================= */
+
+const DEMO = !firebaseConfig.apiKey;
+const IS_HOST = new URLSearchParams(location.search).has("host");
+const $ = (s) => document.querySelector(s);
+const show = (id) => ["#vJoin","#vPlayer","#vHostLogin","#vHost"].forEach(v => $(v).classList.toggle("hidden", v !== id));
+const DEFAULT_STATE = { status: "idle", round: 1, roundKey: "r1", turn: 0, result: null, openedAt: null };
+
+/* ---------- 示範後端：同一台電腦的多個分頁互通，用來預覽 ---------- */
+function demoBackend() {
+  const KEY = "buzzer-demo-db";
+  const ch = new BroadcastChannel("buzzer-demo");
+  const subs = new Set();
+  const read = () => { let d = null; try { d = JSON.parse(localStorage.getItem(KEY)); } catch (e) {} return d || { state: { ...DEFAULT_STATE }, presence: {}, buzzes: {}, scores: {} }; };
+  const write = (fn) => { const d = read(); fn(d); localStorage.setItem(KEY, JSON.stringify(d)); ch.postMessage(1); notify(); };
+  const notify = () => {
+    const d = read(); const now = Date.now();
+    const presence = {}; for (const [k, v] of Object.entries(d.presence)) if (now - v.seen < 6000) presence[k] = v;
+    const snap = { state: d.state, presence, buzzes: d.buzzes[d.state.roundKey] || {}, scores: d.scores };
+    subs.forEach(fn => fn(snap));
+  };
+  ch.onmessage = notify;
+  setInterval(notify, 2000);
+  let uid = sessionStorage.getItem("demo-uid");
+  if (!uid) { uid = "u" + Math.random().toString(36).slice(2, 9); sessionStorage.setItem("demo-uid", uid); }
+  let myName = null;
+  setInterval(() => { if (myName) write(d => { d.presence[uid] = { name: myName, seen: Date.now() }; }); }, 2000);
+  addEventListener("beforeunload", () => write(d => { delete d.presence[uid]; }));
+  return {
+    uid: () => uid,
+    async init() { return uid; },
+    async hostUser() { return { email: "demo" }; },
+    async hostSignIn() {},
+    subscribe(fn) { subs.add(fn); notify(); },
+    async join(name) { myName = name; write(d => { d.presence[uid] = { name, seen: Date.now() }; }); },
+    async buzz(roundKey, name) {
+      let ok = false;
+      write(d => {
+        if (d.state.status !== "open" || d.state.roundKey !== roundKey) return;
+        d.buzzes[roundKey] = d.buzzes[roundKey] || {};
+        if (d.buzzes[roundKey][uid]) return;
+        d.buzzes[roundKey][uid] = { name, t: Date.now() }; ok = true;
+      });
+      if (!ok) throw new Error("rejected");
+    },
+    async setState(patch) { write(d => { Object.assign(d.state, patch); if (patch.openedAt === "NOW") d.state.openedAt = Date.now(); }); },
+    async addScore(id, name, delta) { write(d => { const c = d.scores[id] || { name, pts: 0 }; d.scores[id] = { name, pts: c.pts + delta }; }); },
+    async resetAll() { write(d => { d.state = { ...DEFAULT_STATE }; d.buzzes = {}; d.scores = {}; }); },
+  };
+}
+
+/* ---------- 正式後端：Firebase Realtime Database ---------- */
+async function firebaseBackend() {
+  const V = "10.12.2";
+  const { initializeApp } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+  const A = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`);
+  const D = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-database.js`);
+  const app = initializeApp(firebaseConfig);
+  const auth = A.getAuth(app);
+  const db = D.getDatabase(app);
+  const r = (p) => D.ref(db, p);
+  const authReady = new Promise(res => { const u = A.onAuthStateChanged(auth, (user) => { u(); res(user); }); });
+  let myName = null, presenceArmed = false;
+
+  return {
+    uid: () => auth.currentUser && auth.currentUser.uid,
+    async init() {
+      const u = await authReady;
+      if (!u) await A.signInAnonymously(auth);
+      return auth.currentUser.uid;
+    },
+    async hostUser() {
+      const u = await authReady;
+      return u && !u.isAnonymous ? u : null;
+    },
+    async hostSignIn() {
+      await A.signInWithPopup(auth, new A.GoogleAuthProvider());
+      return auth.currentUser;
+    },
+    subscribe(fn) {
+      const snap = { state: { ...DEFAULT_STATE }, presence: {}, buzzes: {}, scores: {} };
+      let curKey = null, unBuzz = null;
+      const emit = () => fn(snap);
+      D.onValue(r("state"), s => {
+        snap.state = { ...DEFAULT_STATE, ...(s.val() || {}) };
+        if (snap.state.roundKey !== curKey) {
+          curKey = snap.state.roundKey;
+          if (unBuzz) unBuzz();
+          snap.buzzes = {};
+          unBuzz = D.onValue(r("buzzes/" + curKey), b => { snap.buzzes = b.val() || {}; emit(); });
+        }
+        emit();
+      });
+      D.onValue(r("presence"), s => { snap.presence = s.val() || {}; emit(); });
+      D.onValue(r("scores"), s => { snap.scores = s.val() || {}; emit(); });
+    },
+    async join(name) {
+      myName = name;
+      const me = r("presence/" + auth.currentUser.uid);
+      if (!presenceArmed) {
+        presenceArmed = true;
+        D.onValue(r(".info/connected"), async (s) => {
+          if (s.val() !== true || !myName) return;
+          await D.onDisconnect(me).remove();
+          await D.set(me, { name: myName, at: D.serverTimestamp() });
+        });
+      } else {
+        await D.set(me, { name: myName, at: D.serverTimestamp() });
+      }
+    },
+    async buzz(roundKey, name) {
+      await D.set(r(`buzzes/${roundKey}/${auth.currentUser.uid}`), { name, t: D.serverTimestamp() });
+    },
+    async setState(patch) {
+      const p = { ...patch };
+      if (p.openedAt === "NOW") p.openedAt = D.serverTimestamp();
+      await D.update(r("state"), p);
+    },
+    async addScore(id, name, delta) {
+      await D.runTransaction(r("scores/" + id), (c) => ({ name, pts: ((c && c.pts) || 0) + delta }));
+    },
+    async resetAll() {
+      await D.set(r("buzzes"), null);
+      await D.set(r("scores"), null);
+      await D.set(r("state"), { ...DEFAULT_STATE });
+    },
+  };
+}
+
+/* ---------- 共用工具 ---------- */
+const sortBuzzes = (b) => Object.entries(b || {})
+  .map(([id, v]) => ({ id, name: v.name, t: v.t }))
+  .filter(x => typeof x.t === "number")
+  .sort((a, b) => a.t - b.t || (a.id < b.id ? -1 : 1));
+const sec = (ms) => (ms / 1000).toFixed(3) + " 秒";
+const clean = (s) => String(s || "").replace(/[\u0000-\u001f<>]/g, "").trim().slice(0, 12);
+
+let audioCtx = null;
+function ding() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "triangle"; o.frequency.setValueAtTime(1318, audioCtx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + .35);
+    g.gain.setValueAtTime(.35, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .6);
+    o.connect(g).connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + .6);
+  } catch (e) {}
+}
+
+/* =========================================================
+   參加者畫面
+   ========================================================= */
+async function startPlayer(be) {
+  const uid = await be.init();
+  const store = DEMO ? sessionStorage : localStorage;   // 示範模式每個分頁當成不同人
+  let name = clean(store.getItem("buzzer-name"));
+  let snap = null, pending = false;
+
+  const enter = async (n) => {
+    name = n; store.setItem("buzzer-name", n);
+    await be.join(n);
+    $("#pMe").textContent = n;
+    show("#vPlayer"); render();
+  };
+
+  $("#joinForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const n = clean($("#nameInput").value);
+    if (!n) { $("#joinErr").textContent = "請輸入名字"; return; }
+    try { await enter(n); } catch (err) { $("#joinErr").textContent = "連線失敗，請重新整理再試一次"; }
+  });
+  $("#renameLink").addEventListener("click", (e) => { e.preventDefault(); $("#nameInput").value = name || ""; show("#vJoin"); });
+
+  const btn = $("#buzzBtn");
+  const press = async (e) => {
+    e.preventDefault();
+    if (btn.disabled || pending || !snap) return;
+    pending = true;
+    btn.classList.add("pressed"); btn.classList.remove("live");
+    if (navigator.vibrate) navigator.vibrate(60);
+    try { await be.buzz(snap.state.roundKey, name); }
+    catch (err) { btn.classList.remove("pressed"); }
+    pending = false; render();
+  };
+  btn.addEventListener("pointerdown", press);
+
+  function render() {
+    if (!snap || !name) return;
+    const { state, presence, buzzes, scores } = snap;
+    $("#pOnline").textContent = Object.keys(presence).length;
+    $("#pRound").textContent = `第 ${state.round} 題`;
+    $("#pScore").textContent = (scores[uid] && scores[uid].pts) || 0;
+    const list = sortBuzzes(buzzes);
+    const myIdx = list.findIndex(x => x.id === uid);
+    const sub = $("#buzzSub");
+    btn.firstChild.textContent = "搶答";
+
+    if (state.status === "open" && myIdx < 0) {
+      btn.disabled = false; btn.classList.add("live"); btn.classList.remove("pressed");
+      sub.textContent = list.length ? "還可以排候補" : "快按！";
+      $("#pStatus").textContent = list.length ? `已有 ${list.length} 人按下` : "開放搶答中！";
+    } else if (myIdx >= 0) {
+      btn.disabled = true; btn.classList.add("pressed"); btn.classList.remove("live");
+      btn.firstChild.textContent = myIdx === 0 ? "第一！" : `第 ${myIdx + 1} 位`;
+      sub.textContent = myIdx === 0 ? "你搶到了" : `比第一名慢 ${sec(list[myIdx].t - list[0].t)}`;
+      $("#pStatus").textContent = myIdx === 0 ? "你最快！準備作答" : "已記錄你的順位";
+    } else {
+      btn.disabled = true; btn.classList.remove("live", "pressed");
+      sub.textContent = state.status === "idle" ? "等待開始" : "本題已結束";
+      $("#pStatus").textContent = state.status === "idle" ? "等主持人出題…" : "本題搶答已結束";
+    }
+
+    const card = $("#pWinner"), who = card.querySelector(".who"), lbl = card.querySelector(".lbl");
+    card.classList.remove("correct");
+    const cur = list[state.turn || 0];
+    if (state.status === "idle" || !list.length) { lbl.textContent = "本題搶答成功"; who.textContent = "—"; }
+    else if (state.result === "correct" && cur) { lbl.textContent = "答對了！+1 分"; who.textContent = cur.name; card.classList.add("correct"); }
+    else if (!cur) { lbl.textContent = "候補都答錯了"; who.textContent = "沒有人答對"; }
+    else { lbl.textContent = state.turn > 0 ? `換第 ${state.turn + 1} 位作答` : "本題搶答成功"; who.textContent = cur.name; }
+  }
+
+  be.subscribe((s) => { snap = s; render(); });
+
+  if (name) { try { await enter(name); return; } catch (e) {} }
+  show("#vJoin"); $("#nameInput").focus();
+}
+
+/* =========================================================
+   主持人畫面
+   ========================================================= */
+async function startHost(be) {
+  await be.init();
+  let user = await be.hostUser();
+  const allowed = (u) => DEMO || (u && HOST_EMAILS.map(x => x.toLowerCase()).includes(String(u.email).toLowerCase()));
+
+  if (!allowed(user)) {
+    show("#vHostLogin");
+    if (user) $("#loginMsg").textContent = `目前登入的 ${user.email} 不是主持人帳號，請換一個帳號登入。`;
+    $("#loginBtn").onclick = async () => {
+      try { user = await be.hostSignIn(); if (allowed(user)) location.reload(); else $("#loginErr").textContent = `${user.email} 沒有主持人權限`; }
+      catch (e) { $("#loginErr").textContent = "登入失敗：" + (e.code || e.message); }
+    };
+    return;
+  }
+
+  show("#vHost");
+  const joinUrl = location.origin + location.pathname;
+  $("#joinUrl").textContent = joinUrl;
+  $("#qrImg").src = "https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=0&data=" + encodeURIComponent(joinUrl);
+
+  let snap = null, lastFirst = null;
+
+  const act = {
+    open: () => snap && snap.state.status === "idle" && be.setState({ status: "open", openedAt: "NOW", turn: 0, result: null }),
+    right: () => {
+      if (!snap) return; const list = sortBuzzes(snap.buzzes); const cur = list[snap.state.turn || 0];
+      if (!cur || snap.state.result === "correct") return;
+      be.addScore(cur.id, cur.name, 1); be.setState({ status: "closed", result: "correct" });
+    },
+    wrong: () => {
+      if (!snap) return; const list = sortBuzzes(snap.buzzes);
+      if (snap.state.result === "correct" || (snap.state.turn || 0) >= list.length) return;
+      be.setState({ turn: (snap.state.turn || 0) + 1 });
+    },
+    next: () => { if (!snap) return; const n = snap.state.round + 1; be.setState({ status: "idle", round: n, roundKey: "r" + n, turn: 0, result: null, openedAt: null }); },
+    reset: () => { if (confirm("確定要全部重來？題號、搶答紀錄、分數都會清空。")) be.resetAll(); },
+  };
+  $("#cOpen").onclick = () => { ding(); act.open(); };   // 第一次點擊同時啟用音效
+  $("#cRight").onclick = act.right;
+  $("#cWrong").onclick = act.wrong;
+  $("#cNext").onclick = act.next;
+  $("#cReset").onclick = act.reset;
+  addEventListener("keydown", (e) => {
+    if (e.target.tagName === "INPUT") return;
+    if (e.code === "Space") { e.preventDefault(); snap && snap.state.status === "idle" ? act.open() : null; }
+    else if (e.key === "y" || e.key === "Y") act.right();
+    else if (e.key === "n" || e.key === "N") act.wrong();
+    else if (e.key === "ArrowRight") act.next();
+  });
+
+  function render() {
+    const { state, presence, buzzes, scores } = snap;
+    const list = sortBuzzes(buzzes);
+    const turn = state.turn || 0;
+    const cur = list[turn];
+
+    $("#hOnline").textContent = Object.keys(presence).length;
+    $("#hRound").textContent = `第 ${state.round} 題`;
+    const st = $("#hStatus");
+    st.className = "st" + (state.status === "open" ? " live" : "");
+    st.textContent = state.status === "idle" ? "準備中，按「開始搶答」" : state.status === "open" ? `● 搶答中（已有 ${list.length} 人按下）` : "本題結束";
+
+    // 聚光燈
+    const spot = $("#spot");
+    $("#spotStamp").classList.toggle("hidden", state.result !== "correct");
+    if (state.status === "idle") {
+      $("#spotLbl").textContent = "等待開始搶答"; $("#spotWho").textContent = "—"; $("#spotMeta").textContent = "";
+    } else if (!list.length) {
+      $("#spotLbl").textContent = "開放搶答中"; $("#spotWho").textContent = "搶答！"; $("#spotMeta").textContent = "";
+    } else if (!cur) {
+      $("#spotLbl").textContent = "候補都答錯了"; $("#spotWho").textContent = "公布答案"; $("#spotMeta").textContent = "";
+    } else {
+      $("#spotLbl").textContent = turn === 0 ? "搶答成功" : `換第 ${turn + 1} 位作答`;
+      $("#spotWho").textContent = cur.name;
+      const react = typeof state.openedAt === "number" ? `反應時間 ${sec(cur.t - state.openedAt)}` : "";
+      $("#spotMeta").textContent = turn === 0 ? react : `比第一名慢 ${sec(cur.t - list[0].t)}`;
+    }
+    const firstKey = list[0] ? state.roundKey + list[0].id : null;
+    if (firstKey && firstKey !== lastFirst) { lastFirst = firstKey; ding(); spot.classList.remove("pop"); void spot.offsetWidth; spot.classList.add("pop"); }
+
+    // 順位
+    const ul = $("#ranking"); ul.textContent = "";
+    list.slice(0, 12).forEach((x, i) => {
+      const li = document.createElement("li");
+      if (i === turn && state.result !== "correct") li.className = "cur";
+      if (i < turn) li.className = "out";
+      if (i === turn && state.result === "correct") li.className = "cur";
+      const a = document.createElement("span"); a.className = "rk"; a.textContent = i + 1;
+      const b = document.createElement("span"); b.className = "nm"; b.textContent = x.name;
+      const c = document.createElement("span"); c.className = "df"; c.textContent = i === 0 ? "最快" : "+" + sec(x.t - list[0].t);
+      li.append(a, b, c); ul.append(li);
+    });
+
+    // 排行榜
+    const sc = $("#scores"); sc.textContent = "";
+    const ranked = Object.values(scores).filter(s => s.pts > 0).sort((a, b) => b.pts - a.pts).slice(0, 10);
+    if (!ranked.length) { const li = document.createElement("li"); li.className = "empty"; li.textContent = "還沒有人得分"; sc.append(li); }
+    ranked.forEach((s, i) => {
+      const li = document.createElement("li");
+      const a = document.createElement("span"); a.textContent = `${i + 1}. ${s.name}`;
+      const b = document.createElement("span"); b.textContent = s.pts;
+      li.append(a, b); sc.append(li);
+    });
+
+    // 在線名單
+    const chips = $("#chips"); chips.textContent = "";
+    const buzzedIds = new Set(list.map(x => x.id));
+    const people = Object.entries(presence).sort((a, b) => String(a[1].name).localeCompare(String(b[1].name), "zh-Hant"));
+    if (!people.length) { const s = document.createElement("span"); s.className = "empty"; s.style.border = "none"; s.textContent = "等大家掃碼加入…"; chips.append(s); }
+    people.forEach(([id, p]) => { const s = document.createElement("span"); s.textContent = p.name; if (buzzedIds.has(id)) s.className = "buzzed"; chips.append(s); });
+
+    // 按鈕狀態
+    $("#cOpen").disabled = state.status !== "idle";
+    $("#cRight").disabled = !cur || state.result === "correct";
+    $("#cWrong").disabled = !cur || state.result === "correct";
+  }
+
+  be.subscribe((s) => { snap = s; render(); });
+}
+
+/* ---------- 啟動 ---------- */
+(async () => {
+  if (DEMO) $("#demoFlag").classList.remove("hidden");
+  let be;
+  try { be = DEMO ? demoBackend() : await firebaseBackend(); }
+  catch (e) { document.body.innerHTML = '<p style="padding:40px;text-align:center">系統載入失敗，請檢查網路後重新整理。</p>'; return; }
+  IS_HOST ? startHost(be) : startPlayer(be);
+})();
+</script>
+</body>
+</html>
